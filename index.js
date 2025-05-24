@@ -1,15 +1,27 @@
- 
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const sequelize = require('./config/db');
+const listingRoutes = require('./routes/listingRoutes');
+const path = require('path');
+const cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/listings', listingRoutes);
 
-// Routes
+// Add this to test server alive easily
 app.get('/', (req, res) => {
-  res.send('Real Estate MVP Backend is running!!');
+  res.send('Server is running!');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+sequelize.sync()
+  .then(() => {
+    console.log('Sequelize sync successful');
+    app.listen(3000, () => {
+      console.log('Server running on http://0.0.0.0:3000');
+    });
+  })
+  .catch(err => {
+    console.error('Sequelize sync error:', err);
+  });

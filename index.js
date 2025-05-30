@@ -7,7 +7,7 @@ const path = require('path');
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://13.203.212.239', // replace with your actual EC2 public IP or domain
+  origin: 'http://3.109.123.88', // replace with your actual EC2 public IP or domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
